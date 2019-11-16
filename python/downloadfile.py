@@ -21,17 +21,17 @@ def testLink():
 
 def downloadDataFile():
 	#Creation du dossier s'il n'existe pas
-	file_data= Path("data")
+	file_path=("data")
+	file_data= Path(file_path)
 	if not file_data.exists():
-		os.system('mkdir data')
-		print('Creation du fichier "Data"')
+		os.system('mkdir '+file_path)
+		print('Creation du fichier "'+file_path+'"')
 
 
 	#TELECHARGEMENT DU FICHIER
-	print('Debut du téléchargement du fichier avec urllib2...')
 	url = 'http://api.worldbank.org/v2/fr/indicator/SP.POP.TOTL?downloadformat=csv'
 	urllib.request.urlretrieve(url, 'data/data.zip')
-	print('Téléchargment terminé')
+	print('Téléchargment du fichier terminé')
 
 	#DEZIPPAGE DU FICHIER
 	# spécifiant le nom du fichier zip
@@ -39,25 +39,40 @@ def downloadDataFile():
 	# ouvrir le fichier zip en mode lecture
 	with ZipFile(file, 'r') as zip:
 	    # extraire tous les fichiers
-	    print('Extraction du zip...')
 	    zip.extractall('')
-	    print('Extraction terminé!')
+	    print('Extraction du zip terminé!')
 
 
 
-	#SUPPRESSION DES FICHIERS INUTILES
-	print('Suppression des fichiers inutiles')
+	#SUPPRESSION DES FICHIERS INUTILES	
 	os.system('rm data/data.zip')
 	os.system('rm Metadata_*')
+	print('Fichiers inutiles supprimés')
 
 	#RENOMMER FICHIER DATA
+	os.system('mv API* data/data.csv')	
 	print('Nom du fichier modifié en data.csv')
-	os.system('mv API* data/data.csv')
 
+def editFile(): #on modifie le debut du fichier pour ajouter le séparateur ","
+	line_to_replace = 0 #La ligne à remplacer
+	my_file = 'data/data.csv' #Path du fichier
+
+	with open(my_file, 'r') as file: 
+	    lines = file.readlines() 
+	
+	if len(lines) > int(line_to_replace):
+	    lines[line_to_replace] = 'Sep=,\r'+lines[0] #On remplace la ligne
+
+	with open(my_file, 'w') as file:
+	    file.writelines( lines ) #Applique les modifs
+	
+	print('Ajout de "Sep=," au debut de data.csv')
 
 def main():
-    if testLink(): downloadDataFile()
-    pass
+	if testLink():
+		downloadDataFile()
+		editFile()
+	pass
 
 if __name__ == '__main__':
     main()
