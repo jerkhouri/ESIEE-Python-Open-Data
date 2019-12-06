@@ -31,6 +31,35 @@ def GetRangeyear(data): #Permet de gerer les erreurs utilisateurs
     MinYear = min(valueAnnee)
     returnList=[MinYear,MaxYear]
     return returnList
+    
+def verifAnnee(data, Année, MinYear, MaxYear):    
+    if (len(Année) < 4 or len(Année) > 4 or not Année.isdigit()):
+        print("L'année n'est pas valide.")
+        return 0
+    elif(int(Année)<MinYear or int(Année)>MaxYear):
+        print("Nous n'avons pas de donnée pour l'année "+ Année+", (De "+ str(MinYear)+ " à "+ str(MaxYear)+")")
+        return 0
+    else:
+        return 1
+
+def verifRange(Range):    
+    Range_Min = 0
+    Range_Max = 100000
+    if (len(Range) != 0):            
+        if('-' not in Range):
+            print("Merci de rentrer une range valide (ex: 0-200 en Millions)")
+            return 0
+        else:
+            Range = Range.split('-')
+            if (Range[0].isdigit() and Range[1].isdigit()):
+                Range_Min = int(Range[0])    
+                Range_Max = int(Range[1])                
+                return [Range_Min,Range_Max]    
+            else:
+                print("Merci de rentrer une range valide (ex: 0-200 en Millions)")
+                return 0
+    else:            
+        return [Range_Min,Range_Max]
 
 def GenHistoData(data, annee, min_data ,max_data):    
     data_column = data[annee].tolist()                    #Liste des populations par années
@@ -68,48 +97,16 @@ def GenHistoData(data, annee, min_data ,max_data):
 
     return 1
 
-
-def verifAnnee(data, Année):
-    MinYear = int(GetRangeyear(data)[0])
-    MaxYear = int(GetRangeyear(data)[1])
-    
-    if (len(Année) < 4 or len(Année) > 4 or not Année.isdigit()):
-        print("L'année n'est pas valide.")
-        return 0
-    elif(int(Année)<MinYear or int(Année)>MaxYear):
-        print("Nous n'avons pas de donnée pour l'année "+ Année)
-        return 0
-    else:
-        return 1
-
-def verifRange(Range):    
-    Range_Min = 0
-    Range_Max = 100000
-    if (len(Range) != 0):            
-        if('-' not in Range):
-            print("Merci de rentrer une range valide (ex: 0-200 en Millions)")
-            return 0
-        else:
-            Range = Range.split('-')
-            if (Range[0].isdigit() and Range[1].isdigit()):
-                Range_Min = int(Range[0])    
-                Range_Max = int(Range[1])                
-                return [Range_Min,Range_Max]    
-            else:
-                print("Merci de rentrer une range valide (ex: 0-200 en Millions)")
-                return 0
-    else:            
-        return [Range_Min,Range_Max]
-
 def mainhistoGrammesGen():    
     print("Programme de Géneration d'Histogrammes")
     
-    data = OpenCSV() #Ouverture du fichier CSV 1 seule fois.
-
+    data = OpenCSV() #Ouverture du fichier CSV 1 seule fois.    
+    MinYear = int(GetRangeyear(data)[0])
+    MaxYear = int(GetRangeyear(data)[1])
     #Requetes utilisateurs avec filtres anti-crash
     if(len(sys.argv)==1):
-        Année = input('Quelle année souhaitez vous obtenir ? ')        
-        if(verifAnnee(data, Année)):
+        Année = input('Quelle année souhaitez vous obtenir ? (De '+ str(MinYear)+ ' à '+ str(MaxYear)+') ')        
+        if(verifAnnee(data, Année, MinYear, MaxYear)):
             Range = input('Quelle est le champs de population souhaitez ? (ex: 10-200 en Millions )')
             if(verifRange(Range)!=0):
                 Range_Min = verifRange(Range)[0]
@@ -121,7 +118,7 @@ def mainhistoGrammesGen():
         
     if(len(sys.argv)>=2): #VERIFIER SI ARG[1] EST UN INT
         Année = sys.argv[1]
-        if(verifAnnee(data, Année)):
+        if(verifAnnee(data, Année, MinYear, MaxYear)):
             if(len(sys.argv)>=3):
                 Range = sys.argv[2]
                 if(verifRange(Range)!=0):
