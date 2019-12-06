@@ -1,78 +1,95 @@
-#!/usr/bin/python3
+#Programmes qui télécharge le dataset et le geojson dynamiquement
 
 #Importation des librairies
 from zipfile import ZipFile
-import os, urllib.request
+import os, urllib.request, shutil
 from pathlib import Path
 
-def testLink():
-	#TEST DU LIEN
-	ShortUrl = 'api.worldbank.org'
-	print('Test host : ' + ShortUrl)
-	response = os.system("sudo ping -c 1 " + ShortUrl)
-	if response == 256:
-		print("Host OK")
-		return True
-	else:
-		print("api.worldbank.org is unreachable")
-		return False
-	#ELSE continuer l'execution du programme
-
-
 def downloadDataFile():
-	#Creation du dossier s'il n'existe pas
-	file_path=("data")
-	file_data= Path(file_path)
-	if not file_data.exists():
-		os.system('mkdir '+file_path)
-		print('Creation du fichier "'+file_path+'"')
+    #Creation du dossier s'il n'existe pas
+    file_path=("data")
+    file_data= Path(file_path)
+    if not file_data.exists():
+         os.makedirs(file_path)
+
+    file_path_csv=("data/data.csv")
+    file_data_csv= Path(file_path_csv)    
+    if not file_data_csv.exists():
+        #TELECHARGEMENT DU FICHIER
+        urlCSV = 'http://api.worldbank.org/v2/fr/indicator/SP.POP.TOTL?downloadformat=csv'
+        urllib.request.urlretrieve(urlCSV, 'data/dataCSV.zip')    
+        print('Téléchargment du csv terminé')
+
+        #DEZIPPAGE DU FICHIER
+        # spécifiant le nom du fichier zip
+        fileCSV = "data/dataCSV.zip"    
+    
+        # ouvrir le fichier zip en mode lecture
+        with ZipFile(fileCSV, 'r') as zip:
+            # extraire tous les fichiers
+            zip.extractall('')
+ 
+        #SUPPRESSION DES FICHIERS INUTILES
+        os.remove('data/dataCSV.zip') 
+    
+        l = os.listdir()
+        for i in l:
+            if "Metadata_" in i : os.remove(i) 
+
+        #RENOMMER FICHIER DATA
+        l = os.listdir()
+        for i in l:
+            if "API" in i : os.rename(i, "data/data.csv")
 
 
-	#TELECHARGEMENT DU FICHIER
-	url = 'http://api.worldbank.org/v2/fr/indicator/SP.POP.TOTL?downloadformat=csv'
-	urllib.request.urlretrieve(url, 'data/data.zip')
-	print('Téléchargment du fichier terminé')
+    file_path_json=("data/data.json")
+    file_data_json= Path(file_path_json)
+    if not file_data_json.exists():
+        #TELECHARGEMENT DU FICHIER
+        urlJSON = 'https://github.com/johan/world.geo.json/archive/master.zip'
+        urllib.request.urlretrieve(urlJSON, 'data/dataJSON.zip')    
+        print('Téléchargment du json terminé')
 
-	#DEZIPPAGE DU FICHIER
-	# spécifiant le nom du fichier zip
-	file = "data/data.zip"
-	# ouvrir le fichier zip en mode lecture
-	with ZipFile(file, 'r') as zip:
-	    # extraire tous les fichiers
-	    zip.extractall('')
-	    print('Extraction du zip terminé!')
+        #DEZIPPAGE DU FICHIER
+        # spécifiant le nom du fichier zip
+        fileJSON = "data/dataJSON.zip"   
+    
+        # ouvrir le fichier zip en mode lecture
+        with ZipFile(fileJSON, 'r') as zip:
+            # extraire tous les fichiers
+            zip.extract('world.geo.json-master/countries.geo.json')
 
+        #RENOMMER FICHIER DATA
+        os.rename('world.geo.json-master/countries.geo.json', 'data/data.json')
+                
+        #SUPPRESSION DES FICHIERS INUTILES
+        os.remove('data/dataJSON.zip')
+        shutil.rmtree('world.geo.json-master', ignore_errors=True)
 
-
-	#SUPPRESSION DES FICHIERS INUTILES	
-	os.system('rm data/data.zip')
-	os.system('rm Metadata_*')
-	print('Fichiers inutiles supprimés')
-
-	#RENOMMER FICHIER DATA
-	os.system('mv API* data/data.csv')	
-	print('Nom du fichier modifié en data.csv')
+    return 1
 
 def editFile(): #on modifie le debut du fichier pour ajouter le séparateur ","
-	line_to_replace = 0 #La ligne à remplacer
-	my_file = 'data/data.csv' #Path du fichier
+    line_to_replace = 0 #La ligne à remplacer
+    my_file = 'data/data.csv' #Path du fichier
 
-	with open(my_file, 'r') as file: 
-	    lines = file.readlines() 
-	
-	if len(lines) > int(line_to_replace):
-	    lines[line_to_replace] = 'Sep=,\r'+lines[0] #On remplace la ligne
+    with open(my_file, 'r') as file: 
+        lines = file.readlines() 
+    
+    if len(lines) > int(line_to_replace):
+        lines[line_to_replace] = 'Sep=,\r'+lines[0] #On remplace la ligne
 
-	with open(my_file, 'w') as file:
-	    file.writelines( lines ) #Applique les modifs
-	
-	print('Ajout de "Sep=," au debut de data.csv')
+    with open(my_file, 'w') as file:
+        file.writelines( lines ) #Applique les modifs
 
-def main():
-	if testLink():
-		downloadDataFile()
-		editFile()
-	pass
+def maindownloadFile():
+    print("---------------------------------------")
+    print("Programme de téléchargement des données")
+    
+    downloadDataFile()
+    editFile()
 
-if __name__ == '__main__':
-    main()
+    print("---------------------------------------")
+    pass
+
+if __name__ == '__main__':    
+    maindownloadFile()
