@@ -22,6 +22,7 @@ Un histogramme possède différentes caractéristiques :
 
 Chaque carte représente une année. (celle-ci l'année 2018)
 Elles sont dynamiques et permettent ainsi d'agrandir (zoom) les différents pays.
+
 ![Map 2018](https://user-images.githubusercontent.com/39912632/70307018-8649a600-1808-11ea-9a78-20dc224a2b4a.png)
 
 ## Comment faire fonctionner le programme.
@@ -62,6 +63,7 @@ Vous devez maintenant avoir cette architecture :
  1. Lancer le script qui fera toutes les étapes précédentes à votre place `bash launch.sh`
 
 **Vous pouvez retrouver tous les histogrammes et cartes générés dans le répertoire "data/HistoGrammes" et "data/Map".**
+
 ![Archi2](https://user-images.githubusercontent.com/39912632/70308863-8186f100-180c-11ea-8935-ecff0f27ac40.png)
 
 ## Bonus
