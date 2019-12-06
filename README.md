@@ -58,10 +58,6 @@ Vous devez maintenant avoir cette architecture :
 	 - Sous Windows : `py.exe .\main.py`
 6. Laissez vous guidez par le programme.
 
-**En une commande (uniquement pour Linux)**
-
- 1. Lancer le script qui fera toutes les étapes précédentes à votre place `bash launch.sh`
-
 **Vous pouvez retrouver tous les histogrammes et cartes générés dans le répertoire "data/HistoGrammes" et "data/Map".**
 
 ![Archi2](https://user-images.githubusercontent.com/39912632/70308863-8186f100-180c-11ea-8935-ecff0f27ac40.png)
