@@ -1,3 +1,5 @@
+#Programmes qui génere les courbes d'évolution de la population par pays
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import os, math, sys, time
