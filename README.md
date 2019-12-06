@@ -15,7 +15,9 @@ Le résultat attendu est un histogramme de ces données et une représentation g
 Un histogramme possède différentes caractéristiques :
 
  - L'année des données 
- - La tranche de population ![2018 de 1 à 69M](https://user-images.githubusercontent.com/39912632/70306664-ba709700-1807-11ea-99a1-62b3129fceab.png)
+ - La tranche de population 
+ 
+ ![2018 de 1 à 69M](https://user-images.githubusercontent.com/39912632/70306664-ba709700-1807-11ea-99a1-62b3129fceab.png)
 ## Représentation géolocalisée
 
 Chaque carte représente une année. (celle-ci l'année 2018)
