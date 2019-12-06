@@ -1,2 +1,6 @@
+folium
 matplotlib
+numpy
 pandas
+urllib3
+shutil
