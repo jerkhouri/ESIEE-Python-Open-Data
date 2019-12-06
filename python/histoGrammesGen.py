@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 import pandas as pd
 import matplotlib.pyplot as plt
 import os, math, sys, time, numpy
