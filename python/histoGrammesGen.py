@@ -1,3 +1,5 @@
+#Programmes qui génère les histogrammes en fonction de l'année et la tranche de pop choisi par l'utilisateur
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import os, math, sys, time, numpy
