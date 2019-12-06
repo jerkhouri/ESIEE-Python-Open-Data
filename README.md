@@ -38,11 +38,10 @@ Pour chacune de ces étapes vous devrez être dans le fichier racines du projet:
 	- Sous Windows :
 		- Télécharger le projet Git grâce à [ce lien](https://github.com/jerkhouri/ESIEE-Python-Open-Data.git) puis décompresser le fichier dans un répertoire ([WinRAR](https://www.win-rar.com/postdownload.html?&L=10), [WinZip](https://download.winzip.com/gl/gad/winzip24.exe)..)
 
-Vous devez maintenant avoir cette architecture :
-<p align="center">
-<img src ="https://user-images.githubusercontent.com/39912632/70307722-189e7980-180a-11ea-816f-1e7f36e15544.png">
-</p
-
+	Vous devez maintenant avoir cette architecture :
+	<p align="center">
+	<img src ="https://user-images.githubusercontent.com/39912632/70307722-189e7980-180a-11ea-816f-1e7f36e15544.png">
+	</p
 
 2. Installer python3 :
 	 - Sous Linux : `sudo apt install python3`
@@ -57,6 +56,7 @@ Vous devez maintenant avoir cette architecture :
 	 -  Sous Linux : `python3 main.py`
 	 - Sous Windows : `py.exe .\main.py`
 6. Laissez vous guidez par le programme.
+
 
 **Vous pouvez retrouver tous les histogrammes et cartes générés dans le répertoire "data/HistoGrammes" et "data/Map".**
 
